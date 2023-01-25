@@ -1,0 +1,20 @@
+databases:
+  - name: shopping-cart-db
+    databaseName: shopping_cart_db_izne
+    user: shopping_cart_db_izne_user
+
+services:
+  - type: web
+    name: shopping-cart-backend
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn mysite.wsgi:application"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: shopping-cart-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
