@@ -9,7 +9,8 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+from dotenv import load_dotenv   #for python-dotenv method
+load_dotenv()                    #for python-dotenv method
 from pathlib import Path
 import os
 import dj_database_url
@@ -86,11 +87,20 @@ WSGI_APPLICATION = 'shopping_cart_backend.wsgi.application'
 #         'NAME': BASE_DIR / 'db.postgresql',
 #     }
 # }
+
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgresql://postgres:postgres@localhost:5432/mysite',
-        conn_max_age=600
-    )
+    # 'default': dj_database_url.config(
+    #     default='postgresql://postgres:postgres@localhost:5432/mysite',
+    #     conn_max_age=600
+    # )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'shopping_cart_db_izne',
+        'USER': 'shopping_cart_db_izne_user',
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': '5432',
+    }
 }
 
 
